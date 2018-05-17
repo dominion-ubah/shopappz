@@ -1,0 +1,128 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" (click)="lgModal.show()" style="margin-left:-1.5em;" href="#">Cart <span class="badge badge-primary">{{this.cart.length}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Categories</a>
+            </li>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" *ngFor='let item of products'>
+
+            <div class="card text-left mb-5 border-bottom-0 rounded-top ">
+
+                <img style="height: 200px; width: 100%; display: block;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                    alt="Card image">
+                <div class="card-body ">
+                    <ng-container *ngIf='inCart(item); else notInCart '>
+                        <i class="fas fa-3x float-right fa-times d-block-inline  " (click)='removeFromCart(item)'></i>
+                    </ng-container>
+
+                    <h5>{{item.name}}</h5>
+                    <p class="card-text">{{item.currency}} {{item.price}}</p>
+
+                </div>
+                <ng-template #notInCart>
+                    <i class="fas fa-3x float-right fa-plus d-block-inline " (click)='addToCart(item)'></i>
+                </ng-template>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="#">
+                            Wishlist
+                            <i class="fas fa-clipboard-list"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cart with {{this.cart.length}} items</h4>
+                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">S/n</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-active" *ngFor='let item of this.cart'>
+                            <th scope="row">{{item.id}}</th>
+                            <td>{{item.name}}</td>
+                            <td><input type="number" #quantity (keyup)='appendQuantity(item, quantity)'></td>
+                            <td (click)='removeFromCart(item)'>Remove</td>
+                        </tr>
+
+
+
+                        <!-- <tr class="table-light">
+                            <th scope="row">Light</th>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                            <td>Column content</td>
+                        </tr> -->
+
+                    </tbody>
+                </table>
+                <div class="w-30 float-right">
+                    Total Payment Due:
+                    <h4 class="text-danger">$ {{this.totalPrice ? this.totalPrice : 0}},</h4> <a href="" class="btn btn-secondary " (click)='checkOut(this.cart)'> Checkout <i class="fas fa-chevron-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <ng-template #template>
+    <div style='width:80%;'>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+       <span aria-hidden="true">&times;</span>
+     </button>
+        </div>
+        <div class="modal-body">
+            This is a modal.
+        </div>
+    </div>
+
+</ng-template> -->
